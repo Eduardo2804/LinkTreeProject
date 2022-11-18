@@ -11,6 +11,8 @@ import Admin from "./pages/Admin"
 
 import Error from "./pages/Error"
 
+import Private from "./routers/Private"
+
 const router = createBrowserRouter([
 
   {
@@ -19,7 +21,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <Admin/>
+    element: <Private><Admin/></Private>
   },
   {
     path: "/login",
