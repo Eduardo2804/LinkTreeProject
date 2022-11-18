@@ -16,6 +16,10 @@ export default function Private({children}) {
 
     useEffect(() => {
 
+
+        //onAuthStateChanged is responsible to check if there is any user logged when user logout the onAuthStateChanged change 
+        //the setsigned state to (false) then it is necessary to login again again 
+
         async function checkLogin() {
 
             const unsub = onAuthStateChanged(auth, (user) => {

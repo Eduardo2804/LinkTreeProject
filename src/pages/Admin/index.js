@@ -1,6 +1,13 @@
+import { Header } from "../../components/Header"
+
+
 export default function Admin() {
 
     return(
-        <h1>Admin Page</h1>
+
+        <div className="adimContainer">
+            <Header/>
+        </div>
+       
     )
 }
