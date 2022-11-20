@@ -9,12 +9,63 @@ import { Input } from "../../components/Input"
 import {MdAddLink} from "react-icons/md"
 import {FiTrash2} from "react-icons/fi"
 
+import { db } from "../../services/firebaseConection"
+
+import {
+    addDoc,
+    collection,
+    onSnapshot,
+    query,
+    orderBy,
+    doc,
+    deleteDoc
+
+} from "firebase/firestore"
+
+import { toast } from "react-toastify"
+
+
+
+
+
 export default function Admin() {
 
       const [nameInput, setNameInput] = useState("");
       const [urlInput, setUrlInput] = useState("")
       const [backgroundColorInput, setBackgroundColorInput] = useState("")
       const [textColorInput, setTextColorInput] = useState("#000")
+
+      async function handleRegister(e){
+
+        e.preventDefault();
+
+        if (nameInput === "" || urlInput === "") {
+            toast.warn("Enter all fields")
+            return;
+        }
+
+        addDoc(collection(db, "links"), {
+
+            name: nameInput,
+            url: urlInput,
+            bg: backgroundColorInput,
+            color: textColorInput,
+            created: new Date(),
+
+        })
+
+        .then(() => {
+            setNameInput("")
+            setUrlInput("")
+            console.log(" link registed ")
+
+        })
+        .catch((error) => {
+            console.log("error" + error)
+            toast.error("something went wrong")
+
+        })
+      }
 
     return(
 
@@ -23,7 +74,8 @@ export default function Admin() {
             <Logo/>
 
 
-            <form className="form">
+            <form className="form" onSubmit={handleRegister}>
+
                 <label className="label">Link Name: </label>
                 <Input
                 placeholder="Link Name..."
@@ -60,15 +112,19 @@ export default function Admin() {
 
                 </section>
 
-                <div className="preview">
-                    <label>Preview</label>
-                    <article className="list" style={{marginTop:8, backgroundColor: backgroundColorInput}}>
-                        <p style={{color: textColorInput}}>{nameInput}</p>
+                {nameInput !== "" && (
+                    
+                    <div className="preview">
+                    <label className="label">Preview</label>
+                    <article className="list" style={ { marginTop:8,  marginBottom: 8, backgroundColor: backgroundColorInput } }>
+                        <p style={ { color: textColorInput } }>{nameInput}</p>
 
                     </article>
                 </div>
+                
+                ) }
 
-
+ 
                 
 
                 <button className="btnRegister" type="submit">
